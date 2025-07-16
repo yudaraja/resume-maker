@@ -1,96 +1,127 @@
-import { useState, useEffect } from 'react'
-import { DndContext, closestCenter, useSensor, useSensors, PointerSensor } from '@dnd-kit/core'
-import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { v4 as uuidv4 } from 'uuid'
-import EducationItem from './EducationList'
-import { CirclePlusIcon, PlusIcon } from 'lucide-react'
+import { useState } from 'react'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { TrashIcon } from 'lucide-react'
 
-export default function EducationList() {
-    const STORAGE_KEY = 'cvData'
-    const [educationList, setEducationList] = useState([])
+export default function EducationItem({ id, index, data, onChange, onDelete }) {
+    const [expanded, setExpanded] = useState(false)
 
-    useEffect(() => {
-        const stored = localStorage.getItem(STORAGE_KEY)
-        if (stored) {
-            const parsed = JSON.parse(stored)
-            if (parsed.education) setEducationList(parsed.education)
+    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: data?.school ? 1 : 0.8,
+    }
+
+    const handleInputChange = (e, field) => {
+        onChange({
+            ...data,
+            [field]: e.target.value,
+        })
+    }
+
+    const handleDelete = () => {
+        if (window.confirm('Apakah Anda yakin ingin menghapus pendidikan ini?')) {
+            onDelete()
         }
-    }, [])
-
-    useEffect(() => {
-        const stored = localStorage.getItem(STORAGE_KEY)
-        const parsed = stored ? JSON.parse(stored) : {}
-        parsed.education = educationList
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed))
-    }, [educationList])
-
-    const sensors = useSensors(useSensor(PointerSensor))
-
-    const handleDragEnd = event => {
-        const { active, over } = event
-        if (active.id !== over.id) {
-            const oldIndex = educationList.findIndex(item => item.id === active.id)
-            const newIndex = educationList.findIndex(item => item.id === over.id)
-            setEducationList(arrayMove(educationList, oldIndex, newIndex))
-        }
-    }
-
-    const handleAdd = () => {
-        setEducationList([
-            ...educationList,
-            {
-                id: uuidv4(),
-                school: '',
-                degree: '',
-                startYear: '',
-                endYear: '',
-            },
-        ])
-    }
-
-    const handleChange = (index, newData) => {
-        const updated = [...educationList]
-        updated[index] = newData
-        setEducationList(updated)
-    }
-
-    const handleDelete = index => {
-        const updated = [...educationList]
-        updated.splice(index, 1)
-        setEducationList(updated)
     }
 
     return (
-        <div>
-            <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
+        <div
+            ref={setNodeRef}
+            style={style}
+            className="mb-3 w-full rounded border border-gray-200 bg-white shadow-md"
+        >
+            <div
+                className={`flex w-full items-center justify-between p-4 ${expanded ? 'border-b border-gray-200' : ''}`}
+                onClick={() => setExpanded(!expanded)}
             >
-                <SortableContext
-                    items={educationList.map(item => item.id)}
-                    strategy={verticalListSortingStrategy}
+                <div className="flex-1">
+                    <h3 className="font-medium text-gray-800">
+                        {data?.school || `Pendidikan Baru #${index + 1}`}
+                    </h3>
+                    {data?.degree && <p className="mt-1 text-sm text-gray-600">{data?.degree}</p>}
+                    {(data?.startYear || data?.endYear) && (
+                        <p className="mt-1 text-xs text-gray-500">
+                            {data?.startYear} - {data?.endYear}
+                        </p>
+                    )}
+                </div>
+                <button
+                    {...attributes}
+                    {...listeners}
+                    className="p-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    onClick={e => e.stopPropagation()}
                 >
-                    {educationList.map((item, index) => (
-                        <EducationItem
-                            key={item.id}
-                            id={item.id}
-                            index={index}
-                            data={item}
-                            onChange={newData => handleChange(index, newData)}
-                            onDelete={() => handleDelete(index)}
-                        />
-                    ))}
-                </SortableContext>
-            </DndContext>
+                    ☰
+                </button>
+            </div>
 
-            <button
-                onClick={handleAdd}
-                className="mt-4 flex w-full cursor-pointer items-center justify-center gap-1 rounded bg-gray-300 px-4 py-3 text-gray-800 transition-all duration-300 hover:bg-gray-400"
-            >
-                <CirclePlusIcon className="h-4" />
-                Tambah Pendidikan
-            </button>
+            {expanded && (
+                <div className="space-y-4 p-4">
+                    <div>
+                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                            Nama Sekolah/Universitas
+                        </label>
+                        <input
+                            value={data?.school}
+                            onChange={e => handleInputChange(e, 'school')}
+                            placeholder="Contoh: Universitas Indonesia"
+                            className="w-full rounded border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                            Gelar/Jurusan
+                        </label>
+                        <input
+                            value={data?.degree}
+                            onChange={e => handleInputChange(e, 'degree')}
+                            placeholder="Contoh: Sarjana Komputer"
+                            className="w-full rounded border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Tahun Mulai
+                            </label>
+                            <input
+                                type="number"
+                                value={data?.startYear}
+                                onChange={e => handleInputChange(e, 'startYear')}
+                                placeholder="Tahun"
+                                className="w-full rounded border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Tahun Selesai
+                            </label>
+                            <input
+                                type="number"
+                                value={data?.endYear}
+                                onChange={e => handleInputChange(e, 'endYear')}
+                                placeholder="Tahun"
+                                className="w-full rounded border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-2">
+                        <button
+                            onClick={handleDelete}
+                            className="flex items-center gap-2 rounded-md bg-red-50 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-100"
+                        >
+                            <TrashIcon className="h-4 w-4" />
+                            Hapus
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
