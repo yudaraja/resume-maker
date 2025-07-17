@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { DndContext, closestCenter, useSensor, useSensors, PointerSensor } from '@dnd-kit/core'
+import {
+    DndContext,
+    closestCenter,
+    useSensor,
+    useSensors,
+    PointerSensor,
+    TouchSensor,
+} from '@dnd-kit/core'
 import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { v4 as uuidv4 } from 'uuid'
 import EducationItem from './EducationItem'
@@ -33,7 +40,7 @@ export default function EducationList() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed))
     }, [educationList])
 
-    const sensors = useSensors(useSensor(PointerSensor))
+    const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor))
 
     const handleDragEnd = event => {
         const { active, over } = event
