@@ -9,9 +9,8 @@ const STORAGE_KEY = 'cvData'
 
 export default function EducationList() {
     const [educationList, setEducationList] = useState([])
-    const isFirstLoad = useRef(true) // ← ini kuncinya
+    const isFirstLoad = useRef(true)
 
-    // Load dari localStorage saat mount
     useEffect(() => {
         const stored = localStorage.getItem(STORAGE_KEY)
         if (stored) {
@@ -22,11 +21,10 @@ export default function EducationList() {
         }
     }, [])
 
-    // Simpan ke localStorage hanya setelah mount pertama
     useEffect(() => {
         if (isFirstLoad.current) {
             isFirstLoad.current = false
-            return // ← cegah eksekusi pertama kali
+            return
         }
 
         const stored = localStorage.getItem(STORAGE_KEY)
@@ -60,7 +58,6 @@ export default function EducationList() {
     }
 
     const handleChange = (index, newData) => {
-        console.log('Mengubah data index ke', index, newData)
         const updated = [...educationList]
         updated[index] = newData
         setEducationList(updated)
@@ -98,7 +95,7 @@ export default function EducationList() {
 
             <button
                 onClick={handleAdd}
-                className="mt-4 flex w-full items-center justify-center gap-1 rounded bg-gray-300 px-4 py-3 text-gray-800 transition-all duration-300 hover:bg-gray-400"
+                className="mt-4 flex w-full cursor-pointer items-center justify-center gap-1 rounded bg-gray-300 px-4 py-3 text-gray-800 transition-all duration-300 hover:bg-gray-400"
             >
                 <CirclePlusIcon className="h-4" />
                 Add Education

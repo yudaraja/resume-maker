@@ -31,7 +31,7 @@ export default function EducationItem({ id, index, data, onChange, onDelete }) {
         <div
             ref={setNodeRef}
             style={style}
-            className="mb-3 w-full rounded border border-gray-200 bg-white shadow-md"
+            className="mb-3 w-full cursor-pointer rounded border border-gray-200 bg-white shadow-md"
         >
             <div
                 className={`flex w-full items-center justify-between p-4 ${expanded ? 'border-b border-gray-200' : ''}`}
