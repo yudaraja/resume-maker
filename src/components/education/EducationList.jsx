@@ -95,7 +95,7 @@ export default function EducationList() {
 
             <button
                 onClick={handleAdd}
-                className="mt-4 flex w-full cursor-pointer items-center justify-center gap-1 rounded bg-gray-300 px-4 py-3 text-gray-800 transition-all duration-300 hover:bg-gray-400"
+                className="mt-4 flex w-full cursor-pointer items-center justify-center gap-1 rounded bg-gray-300 px-4 py-3 text-sm text-gray-800 transition-all duration-300 hover:bg-gray-400 md:text-base"
             >
                 <CirclePlusIcon className="h-4" />
                 Add Education

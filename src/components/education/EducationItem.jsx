@@ -68,7 +68,7 @@ export default function EducationItem({ id, index, data, onChange, onDelete }) {
                             value={data?.school}
                             onChange={e => handleInputChange(e, 'school')}
                             placeholder="Contoh: Universitas Indonesia"
-                            className="w-full rounded border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                            className="w-full rounded border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 md:text-base"
                         />
                     </div>
 
@@ -80,7 +80,7 @@ export default function EducationItem({ id, index, data, onChange, onDelete }) {
                             value={data?.degree}
                             onChange={e => handleInputChange(e, 'degree')}
                             placeholder="Contoh: Sarjana Komputer"
-                            className="w-full rounded border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                            className="w-full rounded border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 md:text-base"
                         />
                     </div>
 
@@ -94,7 +94,7 @@ export default function EducationItem({ id, index, data, onChange, onDelete }) {
                                 value={data?.startYear}
                                 onChange={e => handleInputChange(e, 'startYear')}
                                 placeholder="Tahun"
-                                className="w-full rounded border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                className="w-full rounded border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 md:text-base"
                             />
                         </div>
                         <div>
@@ -106,7 +106,7 @@ export default function EducationItem({ id, index, data, onChange, onDelete }) {
                                 value={data?.endYear}
                                 onChange={e => handleInputChange(e, 'endYear')}
                                 placeholder="Tahun"
-                                className="w-full rounded border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                className="w-full rounded border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 md:text-base"
                             />
                         </div>
                     </div>
@@ -116,7 +116,7 @@ export default function EducationItem({ id, index, data, onChange, onDelete }) {
                             onClick={handleDelete}
                             className="flex items-center gap-2 rounded-md bg-red-50 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-100"
                         >
-                            <TrashIcon className="h-4 w-4" />
+                            <TrashIcon className="mt-1 h-4 w-4" />
                             Hapus
                         </button>
                     </div>
