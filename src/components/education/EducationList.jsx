@@ -70,7 +70,7 @@ export default function EducationList() {
     }
 
     return (
-        <div className="touch-none overflow-x-hidden overflow-y-hidden">
+        <div className="mt-4 overflow-x-hidden overflow-y-hidden">
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}

@@ -53,7 +53,7 @@ export default function EducationItem({
                 onClick={() => toggleExpanded()}
             >
                 <div className="flex-1">
-                    <h3 className="font-medium text-gray-800">
+                    <h3 className="font-medium">
                         {data?.school || `${t('new education')} #${index + 1}`}{' '}
                         <span className="text-gray-500">
                             {(data?.startYear || data?.endYear) && (
@@ -75,7 +75,7 @@ export default function EducationItem({
                 <button
                     {...attributes}
                     {...listeners}
-                    className="p-1 text-gray-500 hover:text-black focus:outline-none"
+                    className="p-1 text-gray-500 transition-all duration-300 hover:text-black focus:outline-none"
                     onClick={e => e.stopPropagation()}
                 >
                     ☰
@@ -85,32 +85,32 @@ export default function EducationItem({
             {expanded && (
                 <div className="space-y-4 p-4">
                     <div>
-                        <label className="mb-1 block text-sm font-medium text-gray-700">
-                            {t('school name')}
-                        </label>
+                        <label className="mb-1 block text-sm font-medium">{t('school name')}</label>
                         <input
                             value={data?.school}
                             onChange={e => handleInputChange(e, 'school')}
                             placeholder={t('school example')}
-                            className="w-full rounded border border-gray-300 p-2 text-sm md:text-base"
+                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                data?.school ? 'bg-gray-100' : 'bg-white'
+                            }`}
                         />
                     </div>
 
                     <div>
-                        <label className="mb-1 block text-sm font-medium text-gray-700">
-                            {t('degree')}
-                        </label>
+                        <label className="mb-1 block text-sm font-medium">{t('degree')}</label>
                         <input
                             value={data?.degree}
                             onChange={e => handleInputChange(e, 'degree')}
                             placeholder={t('degree example')}
-                            className="w-full rounded border border-gray-300 p-2 text-sm md:text-base"
+                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                data?.degree ? 'bg-gray-100' : 'bg-white'
+                            }`}
                         />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium">
                                 {t('start year')}
                             </label>
                             <input
@@ -118,11 +118,13 @@ export default function EducationItem({
                                 value={data?.startYear}
                                 onChange={e => handleInputChange(e, 'startYear')}
                                 placeholder={t('start year example')}
-                                className="w-full rounded border border-gray-300 p-2 text-sm md:text-base"
+                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                    data?.startYear ? 'bg-gray-100' : 'bg-white'
+                                }`}
                             />
                         </div>
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium">
                                 {t('end year')}
                             </label>
                             <input
@@ -130,20 +132,22 @@ export default function EducationItem({
                                 value={data?.endYear}
                                 onChange={e => handleInputChange(e, 'endYear')}
                                 placeholder={t('end year example')}
-                                className="w-full rounded border border-gray-300 p-2 text-sm md:text-base"
+                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                    data?.endYear ? 'bg-gray-100' : 'bg-white'
+                                }`}
                             />
                         </div>
                     </div>
                     <div>
-                        <label className="mb-1 block text-sm font-medium text-gray-700">
-                            {t('gpa')}
-                        </label>
+                        <label className="mb-1 block text-sm font-medium">{t('gpa')}</label>
                         <input
                             type="number"
                             value={data?.gpa}
                             onChange={e => handleInputChange(e, 'gpa')}
                             placeholder={t('gpa example')}
-                            className="w-full rounded border border-gray-300 p-2 text-sm md:text-base"
+                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                data?.gpa ? 'bg-gray-100' : 'bg-white'
+                            }`}
                         />
                     </div>
 
@@ -158,21 +162,19 @@ export default function EducationItem({
                     </div>
 
                     {showConfirm && (
-                        <div className="bg-opacity-50 fixed inset-0 flex items-center justify-center bg-black/50">
-                            <div className="rounded-lg bg-white px-8 py-8 shadow-md">
-                                <p className="mb-6 text-sm font-medium text-gray-700">
-                                    {t('delete education')}
-                                </p>
-                                <div className="flex justify-end gap-2.5">
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+                            <div className="w-full max-w-sm rounded-lg bg-white px-4 py-6 shadow-md sm:px-6 md:px-8">
+                                <p className="mb-6 text-sm font-medium">{t('delete education')}</p>
+                                <div className="flex flex-wrap justify-end gap-2.5">
                                     <button
                                         onClick={() => setShowConfirm(false)}
-                                        className="flex items-center justify-center gap-2 rounded-md bg-gray-50 px-4 py-3 text-sm font-medium text-gray-600 transition-all duration-300 hover:bg-gray-200"
+                                        className="flex items-center justify-center gap-2 rounded-md bg-gray-50 px-4 py-2 text-sm font-medium text-gray-600 transition-all duration-300 hover:bg-gray-200"
                                     >
                                         {t('cancel')}
                                     </button>
                                     <button
                                         onClick={handleDelete}
-                                        className="flex items-center justify-center gap-2 rounded-md bg-red-50 px-4 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-200"
+                                        className="flex items-center justify-center gap-2 rounded-md bg-red-50 px-4 py-2 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-200"
                                     >
                                         {t('delete')}
                                     </button>
