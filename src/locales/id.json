@@ -1,0 +1,18 @@
+{
+    "education": "Pendidikan",
+    "add education": "Tambah Pendidikan",
+    "new education": "Pendidikan Baru",
+    "gpa": "IPK/Nilai Akhir",
+    "gpa example": "Contoh: 3.75",
+    "school name": "Nama Sekolah/Universitas",
+    "school example": "Contoh: Universitas Indonesia",
+    "degree": "Gelar/Jurusan",
+    "degree example": "Contoh: Sarjana Komputer",
+    "start year": "Tahun Mulai",
+    "start year example": "Contoh: 2020",
+    "end year": "Tahun Selesai",
+    "end year example": "Contoh: 2021",
+    "delete": "Hapus",
+    "delete education": "Apakah Anda yakin ingin menghapus item pendidikan ini?",
+    "cancel": "Batal"
+}
