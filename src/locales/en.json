@@ -1,0 +1,18 @@
+{
+    "education": "Education",
+    "add education": "Add Education",
+    "new education": "New Education",
+    "gpa": "GPA/Final Score",
+    "gpa example": "Example: 3.75",
+    "school name": "School Name/University",
+    "school example": "Example: University of Indonesia",
+    "degree": "Degree/Field of Study",
+    "degree example": "Example: Bachelor of Computer Science",
+    "start year": "Start Year",
+    "start year example": "Example: 2020",
+    "end year": "End Year",
+    "end year example": "Example: 2021",
+    "delete": "Delete",
+    "delete education": "Are you sure you want to delete this education item?",
+    "cancel": "Cancel"
+}

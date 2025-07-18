@@ -1,17 +1,25 @@
-import { useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { t } from 'i18next'
 import { TrashIcon } from 'lucide-react'
+import { useState } from 'react'
 
-export default function EducationItem({ id, index, data, onChange, onDelete }) {
-    const [expanded, setExpanded] = useState(false)
-
+export default function EducationItem({
+    id,
+    index,
+    data,
+    onChange,
+    onDelete,
+    expandedId,
+    setExpandedId,
+}) {
+    const expanded = expandedId === data?.id
+    const [showConfirm, setShowConfirm] = useState(false)
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
 
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
-        opacity: data?.school ? 1 : 0.8,
     }
 
     const handleInputChange = (e, field) => {
@@ -22,8 +30,15 @@ export default function EducationItem({ id, index, data, onChange, onDelete }) {
     }
 
     const handleDelete = () => {
-        if (window.confirm('Apakah Anda yakin ingin menghapus pendidikan ini?')) {
-            onDelete()
+        onDelete()
+        setShowConfirm(false)
+    }
+
+    const toggleExpanded = () => {
+        if (expandedId === data?.id) {
+            setExpandedId(null)
+        } else {
+            setExpandedId(data?.id)
         }
     }
 
@@ -35,23 +50,32 @@ export default function EducationItem({ id, index, data, onChange, onDelete }) {
         >
             <div
                 className={`flex w-full items-center justify-between p-4 ${expanded ? 'border-b border-gray-200' : ''}`}
-                onClick={() => setExpanded(!expanded)}
+                onClick={() => toggleExpanded()}
             >
                 <div className="flex-1">
                     <h3 className="font-medium text-gray-800">
-                        {data?.school || `Pendidikan Baru #${index + 1}`}
+                        {data?.school || `${t('new education')} #${index + 1}`}{' '}
+                        <span className="text-gray-500">
+                            {(data?.startYear || data?.endYear) && (
+                                <span>
+                                    {`(${data?.startYear || ''}${data?.startYear && data?.endYear ? ' - ' : ''}${data?.endYear || ''})`}
+                                </span>
+                            )}
+                        </span>
                     </h3>
-                    {data?.degree && <p className="mt-1 text-sm text-gray-600">{data?.degree}</p>}
-                    {(data?.startYear || data?.endYear) && (
-                        <p className="mt-1 text-xs text-gray-500">
-                            {data?.startYear} - {data?.endYear}
+                    {data?.degree && <p className="mt-1 text-sm text-gray-500">{data?.degree}</p>}
+                    {data?.gpa && (
+                        <p className="mt-1 text-sm text-gray-500">
+                            <span>
+                                {t('gpa')}: {data?.gpa}
+                            </span>
                         </p>
                     )}
                 </div>
                 <button
                     {...attributes}
                     {...listeners}
-                    className="p-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    className="p-1 text-gray-500 hover:text-black focus:outline-none"
                     onClick={e => e.stopPropagation()}
                 >
                     ☰
@@ -62,64 +86,100 @@ export default function EducationItem({ id, index, data, onChange, onDelete }) {
                 <div className="space-y-4 p-4">
                     <div>
                         <label className="mb-1 block text-sm font-medium text-gray-700">
-                            Nama Sekolah/Universitas
+                            {t('school name')}
                         </label>
                         <input
                             value={data?.school}
                             onChange={e => handleInputChange(e, 'school')}
-                            placeholder="Contoh: Universitas Indonesia"
-                            className="w-full rounded border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 md:text-base"
+                            placeholder={t('school example')}
+                            className="w-full rounded border border-gray-300 p-2 text-sm md:text-base"
                         />
                     </div>
 
                     <div>
                         <label className="mb-1 block text-sm font-medium text-gray-700">
-                            Gelar/Jurusan
+                            {t('degree')}
                         </label>
                         <input
                             value={data?.degree}
                             onChange={e => handleInputChange(e, 'degree')}
-                            placeholder="Contoh: Sarjana Komputer"
-                            className="w-full rounded border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 md:text-base"
+                            placeholder={t('degree example')}
+                            className="w-full rounded border border-gray-300 p-2 text-sm md:text-base"
                         />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Tahun Mulai
+                                {t('start year')}
                             </label>
                             <input
                                 type="number"
                                 value={data?.startYear}
                                 onChange={e => handleInputChange(e, 'startYear')}
-                                placeholder="Tahun"
-                                className="w-full rounded border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 md:text-base"
+                                placeholder={t('start year example')}
+                                className="w-full rounded border border-gray-300 p-2 text-sm md:text-base"
                             />
                         </div>
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Tahun Selesai
+                                {t('end year')}
                             </label>
                             <input
                                 type="number"
                                 value={data?.endYear}
                                 onChange={e => handleInputChange(e, 'endYear')}
-                                placeholder="Tahun"
-                                className="w-full rounded border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 md:text-base"
+                                placeholder={t('end year example')}
+                                className="w-full rounded border border-gray-300 p-2 text-sm md:text-base"
                             />
                         </div>
+                    </div>
+                    <div>
+                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                            {t('gpa')}
+                        </label>
+                        <input
+                            type="number"
+                            value={data?.gpa}
+                            onChange={e => handleInputChange(e, 'gpa')}
+                            placeholder={t('gpa example')}
+                            className="w-full rounded border border-gray-300 p-2 text-sm md:text-base"
+                        />
                     </div>
 
                     <div className="flex justify-end gap-2 pt-2">
                         <button
-                            onClick={handleDelete}
-                            className="flex items-center gap-2 rounded-md bg-red-50 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-100"
+                            onClick={() => setShowConfirm(true)}
+                            className="flex cursor-pointer items-center justify-center gap-2 rounded-md bg-red-50 px-4 py-3 align-middle text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-200"
                         >
-                            <TrashIcon className="mt-1 h-4 w-4" />
-                            Hapus
+                            <TrashIcon className="h-4 w-4" />
+                            <span className="leading-none">{t('delete')}</span>
                         </button>
                     </div>
+
+                    {showConfirm && (
+                        <div className="bg-opacity-50 fixed inset-0 flex items-center justify-center bg-black/50">
+                            <div className="rounded-lg bg-white px-8 py-8 shadow-md">
+                                <p className="mb-6 text-sm font-medium text-gray-700">
+                                    {t('delete education')}
+                                </p>
+                                <div className="flex justify-end gap-2.5">
+                                    <button
+                                        onClick={() => setShowConfirm(false)}
+                                        className="flex items-center justify-center gap-2 rounded-md bg-gray-50 px-4 py-3 text-sm font-medium text-gray-600 transition-all duration-300 hover:bg-gray-200"
+                                    >
+                                        {t('cancel')}
+                                    </button>
+                                    <button
+                                        onClick={handleDelete}
+                                        className="flex items-center justify-center gap-2 rounded-md bg-red-50 px-4 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-200"
+                                    >
+                                        {t('delete')}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
