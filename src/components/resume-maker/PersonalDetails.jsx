@@ -1,6 +1,6 @@
 import { CirclePlusIcon } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
-import { getFromLocalStorage, updateLocalStorage } from '../utils/localStorageHelper'
+import { getFromLocalStorage, updateLocalStorage } from '../../utils/localStorageHelper'
 import { t } from 'i18next'
 
 const PersonalDetails = () => {

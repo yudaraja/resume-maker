@@ -11,7 +11,7 @@ import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-ki
 import { v4 as uuidv4 } from 'uuid'
 import EducationItem from './EducationItem'
 import { CirclePlusIcon } from 'lucide-react'
-import { getFromLocalStorage, updateLocalStorage } from '../../utils/localStorageHelper'
+import { getFromLocalStorage, updateLocalStorage } from '../../../utils/localStorageHelper'
 import { t } from 'i18next'
 
 export default function EducationList() {
@@ -55,6 +55,7 @@ export default function EducationList() {
                 startYear: '',
                 endYear: '',
                 gpa: '',
+                isPresent: false,
             },
         ])
     }

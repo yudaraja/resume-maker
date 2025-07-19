@@ -4,10 +4,11 @@ import React from 'react'
 export const TemplateATS = ({ data }) => {
     return (
         <div
+            id="template-ats"
             className="w-full overflow-auto"
             style={{ fontFamily: '"Times New Roman", Times, serif' }}
         >
-            <div className="a4-page bg-white shadow-lg">
+            <div className="a4-page shadow-lg" style={{ backgroundColor: '#ffffff' }}>
                 {data.personalDetails.name && (
                     <div className="text-center text-3xl font-semibold">
                         {data.personalDetails.name || 'John Doe'}
@@ -20,56 +21,44 @@ export const TemplateATS = ({ data }) => {
                             href={data.personalDetails.email || 'loremipsum@gmail.com'}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 underline"
+                            className="text-[#2563eb] underline"
                         >
-                            {data.personalDetails.email || 'Email'}
+                            {data.personalDetails.email}
                         </a>{' '}
-                        | {data.personalDetails.phone || '(123) 456-7890'} |{' '}
+                        | {data.personalDetails.phone} |{' '}
                         <a
-                            href={
-                                data.personalDetails.linkedin || 'https://linkedin.com/in/username'
-                            }
+                            href={data.personalDetails.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 underline"
+                            className="text-[#2563eb] underline"
                         >
-                            {data.personalDetails.linkedin || 'LinkedIn'}
+                            {data.personalDetails.linkedin}
                         </a>{' '}
                         |{' '}
                         <a
-                            href={
-                                data.personalDetails.portfolio || 'https://portfolio.com/username'
-                            }
+                            href={data.personalDetails.portfolio}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 underline"
+                            className="text-[#2563eb] underline"
                         >
-                            {data.personalDetails.portfolio || 'Portfolio'}
+                            {data.personalDetails.portfolio}
                         </a>{' '}
                         |{' '}
                         <a
-                            href={data.personalDetails.github || 'https://github.com/username'}
+                            href={data.personalDetails.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 underline"
+                            className="text-[#2563eb] underline"
                         >
-                            {data.personalDetails.github || 'GitHub'}
+                            {data.personalDetails.github}
                         </a>
                     </div>
                 </div>
                 <div className="mt-1 text-center text-sm">
-                    {data.personalDetails.address || '123 Main St, City, Country'},{' '}
-                    {data.personalDetails.city || 'City'},{' '}
-                    {data.personalDetails.postalCode || 'Postal Code'}
+                    {data.personalDetails.address}, {data.personalDetails.city},{' '}
+                    {data.personalDetails.postalCode}
                 </div>
-                <div className="mt-4 text-justify text-sm">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste inventore in
-                    voluptas nulla suscipit beatae officia necessitatibus? Mollitia, repellat fuga!
-                    Ipsa expedita, tenetur eum officia architecto ullam nobis magnam iure itaque
-                    soluta cupiditate saepe quia perferendis necessitatibus provident odio facere
-                    placeat enim. Porro, eveniet? Tempore laborum perferendis deleniti culpa
-                    aliquid!
-                </div>
+                <div className="mt-4 text-justify text-sm">{data.description.description}</div>
                 <div>
                     <div>
                         <h2 className="mt-6 text-lg font-semibold">{t('education')}</h2>
@@ -86,9 +75,15 @@ export const TemplateATS = ({ data }) => {
                                     )}
                                 </div>
                                 <div>
-                                    <p className="text-sm font-semibold">
-                                        {edu.startYear} - {edu.endYear}
-                                    </p>
+                                    {edu.isPresent ? (
+                                        <p className="text-sm font-semibold">
+                                            {edu.startYear} - {t('present')}
+                                        </p>
+                                    ) : (
+                                        <p className="text-sm font-semibold">
+                                            {edu.startYear} - {edu.endYear}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         ))}

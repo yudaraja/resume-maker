@@ -35,5 +35,15 @@
     "cv language": "Bahasa CV",
     "personal details": "Detail Pribadi",
     "portfolio": "Portofolio",
-    "portfolio example": "Contoh: https://portfolio.com/username"
+    "portfolio example": "Contoh: https://portfolio.com/username",
+    "present": "Sekarang",
+    "currently studying": "Saya sedang belajar di sini",
+    "description": "Deskripsi",
+    "work experience": "Pengalaman Kerja",
+    "remove section": "Hapus Bagian",
+    "skills": "Keterampilan",
+    "organization": "Organisasi",
+    "add experience": "Tambah Pengalaman Kerja",
+    "add skills": "Tambah Keterampilan",
+    "add organizations": "Tambah Organisasi"
 }
