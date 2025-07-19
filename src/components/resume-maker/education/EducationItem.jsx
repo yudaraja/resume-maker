@@ -22,10 +22,10 @@ export default function EducationItem({
         transition,
     }
 
-    const handleInputChange = (e, field) => {
+    const handleInputChange = (e, field, value = null) => {
         onChange({
             ...data,
-            [field]: e.target.value,
+            [field]: value !== null ? value : e.target.value,
         })
     }
 
@@ -58,7 +58,7 @@ export default function EducationItem({
                         <span className="text-gray-500">
                             {(data?.startYear || data?.endYear) && (
                                 <span>
-                                    {`(${data?.startYear || ''}${data?.startYear && data?.endYear ? ' - ' : ''}${data?.endYear || ''})`}
+                                    {`(${data?.startYear || ''}${data?.startYear && data?.endYear ? ' - ' : ''}${data?.isPresent ? t('present') : data?.endYear || ''})`}
                                 </span>
                             )}
                         </span>
@@ -108,6 +108,30 @@ export default function EducationItem({
                         />
                     </div>
 
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            {t('present')}{' '}
+                            <span className="text-sm font-light text-gray-700">
+                                ({t('currently studying')})
+                            </span>
+                        </label>
+                        <button
+                            type="button"
+                            role="switch"
+                            aria-checked={data?.isPresent}
+                            onClick={() => handleInputChange(null, 'isPresent', !data?.isPresent)}
+                            className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ${
+                                data?.isPresent ? 'bg-black' : 'bg-gray-300'
+                            }`}
+                        >
+                            <span
+                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
+                                    data?.isPresent ? 'translate-x-6' : 'translate-x-1'
+                                }`}
+                            />
+                        </button>
+                    </div>
+
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="mb-1 block text-sm font-medium">
@@ -123,21 +147,24 @@ export default function EducationItem({
                                 }`}
                             />
                         </div>
-                        <div>
-                            <label className="mb-1 block text-sm font-medium">
-                                {t('end year')}
-                            </label>
-                            <input
-                                type="number"
-                                value={data?.endYear}
-                                onChange={e => handleInputChange(e, 'endYear')}
-                                placeholder={t('end year example')}
-                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                    data?.endYear ? 'bg-gray-100' : 'bg-white'
-                                }`}
-                            />
-                        </div>
+                        {!data?.isPresent && (
+                            <div>
+                                <label className="mb-1 block text-sm font-medium">
+                                    {t('end year')}
+                                </label>
+                                <input
+                                    type="number"
+                                    value={data?.endYear}
+                                    onChange={e => handleInputChange(e, 'endYear')}
+                                    placeholder={t('end year example')}
+                                    className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                        data?.endYear ? 'bg-gray-100' : 'bg-white'
+                                    }`}
+                                />
+                            </div>
+                        )}
                     </div>
+
                     <div>
                         <label className="mb-1 block text-sm font-medium">{t('gpa')}</label>
                         <input

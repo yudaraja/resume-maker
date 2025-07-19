@@ -35,5 +35,15 @@
     "cv language": "CV Language",
     "personal details": "Personal Details",
     "portfolio": "Portfolio",
-    "portfolio example": "Example: https://portfolio.com/username"
+    "portfolio example": "Example: https://portfolio.com/username",
+    "present": "Present",
+    "currently studying": "I am currently studying here",
+    "description": "Description",
+    "work experience": "Work Experience",
+    "remove section": "Remove Section",
+    "skills": "Skills",
+    "organization": "Organization",
+    "add experience": "Add Work Experience",
+    "add skills": "Add Skills",
+    "add organizations": "Add Organizations"
 }
