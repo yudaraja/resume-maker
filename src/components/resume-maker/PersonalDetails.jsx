@@ -1,24 +1,24 @@
 import { CirclePlusIcon } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
-import { getFromLocalStorage, updateLocalStorage } from '../../utils/localStorageHelper'
+import { updateLocalStorage } from '../../utils/localStorageHelper'
 import { t } from 'i18next'
 
-const PersonalDetails = () => {
-    const [personalDetails, setPersonalDetails] = useState([])
+const PersonalDetails = ({ personalDetails, setCvData }) => {
+    const handleChange = (field, value) => {
+        const updated = { ...personalDetails, [field]: value }
+        updateLocalStorage('personalDetails', updated)
+        setCvData(prev => ({ ...prev, personalDetails: updated }))
+    }
     const [addDetails, setAddDetails] = useState(false)
     const isFirstLoad = useRef(true)
 
     useEffect(() => {
-        if (personalDetails.github || personalDetails.linkedin) {
+        if (personalDetails?.github || personalDetails?.linkedin || personalDetails?.portfolio) {
             setAddDetails(true)
         } else {
             setAddDetails(false)
         }
-    }, [personalDetails.github, personalDetails.linkedin])
-
-    useEffect(() => {
-        setPersonalDetails(getFromLocalStorage()?.personalDetails || [])
-    }, [])
+    }, [personalDetails?.github, personalDetails?.linkedin, personalDetails?.portfolio])
 
     useEffect(() => {
         if (isFirstLoad.current) {
@@ -35,7 +35,7 @@ const PersonalDetails = () => {
                 <label className="mb-1 block text-sm font-medium">{t('name')}</label>
                 <input
                     value={personalDetails.name ? personalDetails.name : ''}
-                    onChange={e => setPersonalDetails({ ...personalDetails, name: e.target.value })}
+                    onChange={e => handleChange('name', e.target.value)}
                     placeholder={t('name example')}
                     className={`w-full rounded border border-gray-300 p-2 text-sm ${
                         personalDetails.name ? 'bg-gray-100' : 'bg-white'
@@ -49,9 +49,7 @@ const PersonalDetails = () => {
                     <input
                         type="email"
                         value={personalDetails.email ? personalDetails.email : ''}
-                        onChange={e =>
-                            setPersonalDetails({ ...personalDetails, email: e.target.value })
-                        }
+                        onChange={e => handleChange('email', e.target.value)}
                         placeholder={t('email example')}
                         className={`w-full rounded border border-gray-300 p-2 text-sm ${
                             personalDetails.email ? 'bg-gray-100' : 'bg-white'
@@ -63,9 +61,7 @@ const PersonalDetails = () => {
                     <input
                         type="number"
                         value={personalDetails.phone ? personalDetails.phone : ''}
-                        onChange={e =>
-                            setPersonalDetails({ ...personalDetails, phone: e.target.value })
-                        }
+                        onChange={e => handleChange('phone', e.target.value)}
                         placeholder={t('phone example')}
                         className={`w-full rounded border border-gray-300 p-2 text-sm ${
                             personalDetails.phone ? 'bg-gray-100' : 'bg-white'
@@ -79,9 +75,7 @@ const PersonalDetails = () => {
                 <input
                     type="text"
                     value={personalDetails.address ? personalDetails.address : ''}
-                    onChange={e =>
-                        setPersonalDetails({ ...personalDetails, address: e.target.value })
-                    }
+                    onChange={e => handleChange('address', e.target.value)}
                     placeholder={t('address example')}
                     className={`w-full rounded border border-gray-300 p-2 text-sm ${
                         personalDetails.address ? 'bg-gray-100' : 'bg-white'
@@ -95,9 +89,7 @@ const PersonalDetails = () => {
                     <input
                         type="text"
                         value={personalDetails.city ? personalDetails.city : ''}
-                        onChange={e =>
-                            setPersonalDetails({ ...personalDetails, city: e.target.value })
-                        }
+                        onChange={e => handleChange('city', e.target.value)}
                         placeholder={t('city example')}
                         className={`w-full rounded border border-gray-300 p-2 text-sm ${
                             personalDetails.city ? 'bg-gray-100' : 'bg-white'
@@ -109,9 +101,7 @@ const PersonalDetails = () => {
                     <input
                         type="number"
                         value={personalDetails.postalCode ? personalDetails.postalCode : ''}
-                        onChange={e =>
-                            setPersonalDetails({ ...personalDetails, postalCode: e.target.value })
-                        }
+                        onChange={e => handleChange('postalCode', e.target.value)}
                         placeholder={t('postal code example')}
                         className={`w-full rounded border border-gray-300 p-2 text-sm ${
                             personalDetails.postalCode ? 'bg-gray-100' : 'bg-white'
@@ -127,12 +117,7 @@ const PersonalDetails = () => {
                         <input
                             type="text"
                             value={personalDetails.github ? personalDetails.github : ''}
-                            onChange={e =>
-                                setPersonalDetails({
-                                    ...personalDetails,
-                                    github: e.target.value,
-                                })
-                            }
+                            onChange={e => handleChange('github', e.target.value)}
                             placeholder={t('github example')}
                             className={`w-full rounded border border-gray-300 p-2 text-sm ${
                                 personalDetails.github ? 'bg-gray-100' : 'bg-white'
@@ -144,12 +129,7 @@ const PersonalDetails = () => {
                         <input
                             type="text"
                             value={personalDetails.linkedin ? personalDetails.linkedin : ''}
-                            onChange={e =>
-                                setPersonalDetails({
-                                    ...personalDetails,
-                                    linkedin: e.target.value,
-                                })
-                            }
+                            onChange={e => handleChange('linkedin', e.target.value)}
                             placeholder={t('linkedin example')}
                             className={`w-full rounded border border-gray-300 p-2 text-sm ${
                                 personalDetails.linkedin ? 'bg-gray-100' : 'bg-white'
@@ -161,12 +141,7 @@ const PersonalDetails = () => {
                         <input
                             type="text"
                             value={personalDetails.portfolio ? personalDetails.portfolio : ''}
-                            onChange={e =>
-                                setPersonalDetails({
-                                    ...personalDetails,
-                                    portfolio: e.target.value,
-                                })
-                            }
+                            onChange={e => handleChange('portfolio', e.target.value)}
                             placeholder={t('portfolio example')}
                             className={`w-full rounded border border-gray-300 p-2 text-sm ${
                                 personalDetails.portfolio ? 'bg-gray-100' : 'bg-white'

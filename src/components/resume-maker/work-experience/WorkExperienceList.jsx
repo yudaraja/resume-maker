@@ -1,26 +1,26 @@
 import { useEffect, useRef, useState } from 'react'
+import { getFromLocalStorage, updateLocalStorage } from '../../../utils/localStorageHelper'
 import {
-    DndContext,
     closestCenter,
-    useSensor,
-    useSensors,
+    DndContext,
     PointerSensor,
     TouchSensor,
+    useSensor,
+    useSensors,
 } from '@dnd-kit/core'
-import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { v4 as uuidv4 } from 'uuid'
-import EducationItem from './EducationItem'
-import { CirclePlusIcon } from 'lucide-react'
-import { getFromLocalStorage, updateLocalStorage } from '../../../utils/localStorageHelper'
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { t } from 'i18next'
+import { CirclePlusIcon } from 'lucide-react'
+import WorkExperienceItem from './WorkExperienceItem'
 
-export default function EducationList({ setCvData }) {
-    const [localEducationList, setLocalEducationList] = useState([])
+export default function WorkExperienceList({ setCvData }) {
+    const [localWorkExperienceList, setLocalWorkExperienceList] = useState([])
     const isFirstLoad = useRef(true)
     const [expandedId, setExpandedId] = useState(null)
 
     useEffect(() => {
-        setLocalEducationList(getFromLocalStorage()?.education || [])
+        setLocalWorkExperienceList(getFromLocalStorage()?.workExperience || [])
     }, [])
 
     useEffect(() => {
@@ -29,10 +29,10 @@ export default function EducationList({ setCvData }) {
             return
         }
 
-        if (localEducationList.length > 0) {
-            updateLocalStorage('education', localEducationList)
+        if (localWorkExperienceList.length > 0) {
+            updateLocalStorage('workExperience', localWorkExperienceList)
         }
-    }, [localEducationList])
+    }, [localWorkExperienceList])
 
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 
@@ -41,49 +41,51 @@ export default function EducationList({ setCvData }) {
     const handleDragEnd = event => {
         const { active, over } = event
         if (active.id !== over.id) {
-            const oldIndex = localEducationList.findIndex(item => item.id === active.id)
-            const newIndex = localEducationList.findIndex(item => item.id === over.id)
-            const updated = arrayMove(localEducationList, oldIndex, newIndex)
+            const oldIndex = localWorkExperienceList.findIndex(item => item.id === active.id)
+            const newIndex = localWorkExperienceList.findIndex(item => item.id === over.id)
+            const updated = arrayMove(localWorkExperienceList, oldIndex, newIndex)
 
-            setLocalEducationList(updated)
-            updateLocalStorage('education', updated)
-            setCvData(prev => ({ ...prev, education: updated }))
+            setLocalWorkExperienceList(updated)
+            updateLocalStorage('workExperience', updated)
+            setCvData(prev => ({ ...prev, workExperience: updated }))
         }
     }
 
     const handleAdd = () => {
-        setLocalEducationList([
-            ...localEducationList,
+        setLocalWorkExperienceList([
+            ...localWorkExperienceList,
             {
                 id: uuidv4(),
-                school: '',
-                degree: '',
+                company: '',
+                position: '',
+                city: '',
+                country: '',
                 startYear: '',
                 endYear: '',
                 startMonth: '',
                 endMonth: '',
-                gpa: '',
                 isPresent: false,
+                jobDescription: '',
             },
         ])
     }
 
     const handleChange = (id, newData) => {
-        const updated = localEducationList.map(item =>
+        const updated = localWorkExperienceList.map(item =>
             item.id === id ? { ...item, ...newData } : item
         )
-        setLocalEducationList(updated)
+        setLocalWorkExperienceList(updated)
 
-        updateLocalStorage('education', updated)
-        setCvData(prev => ({ ...prev, education: updated }))
+        updateLocalStorage('workExperience', updated)
+        setCvData(prev => ({ ...prev, workExperience: updated }))
     }
 
     const handleDelete = id => {
-        const updated = localEducationList.filter(item => item.id !== id)
+        const updated = localWorkExperienceList.filter(item => item.id !== id)
 
-        setLocalEducationList(updated)
-        updateLocalStorage('education', updated)
-        setCvData(prev => ({ ...prev, education: updated }))
+        setLocalWorkExperienceList(updated)
+        updateLocalStorage('workExperience', updated)
+        setCvData(prev => ({ ...prev, workExperience: updated }))
     }
 
     return (
@@ -94,12 +96,12 @@ export default function EducationList({ setCvData }) {
                 onDragEnd={handleDragEnd}
             >
                 <SortableContext
-                    items={localEducationList.map(item => item.id)}
+                    items={localWorkExperienceList.map(item => item.id)}
                     strategy={verticalListSortingStrategy}
                 >
-                    {localEducationList?.length > 0
-                        ? localEducationList.map((item, index) => (
-                              <EducationItem
+                    {localWorkExperienceList?.length > 0
+                        ? localWorkExperienceList.map((item, index) => (
+                              <WorkExperienceItem
                                   key={item.id}
                                   id={item.id}
                                   index={index}
@@ -119,7 +121,7 @@ export default function EducationList({ setCvData }) {
                 className="mt-4 flex w-full cursor-pointer items-center justify-center gap-1 rounded bg-gray-300 px-4 py-4 text-sm transition-all duration-300 hover:bg-gray-400 md:text-base"
             >
                 <CirclePlusIcon className="h-4" />
-                <span className="leading-none">{t('add education')}</span>
+                <span className="leading-none">{t('add experience')}</span>
             </button>
         </div>
     )
