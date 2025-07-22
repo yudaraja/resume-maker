@@ -5,7 +5,7 @@ import { TrashIcon } from 'lucide-react'
 import { useState } from 'react'
 import MonthSelect from '../MonthSelect'
 
-export default function EducationItem({
+export default function WorkExperienceItem({
     id,
     index,
     data,
@@ -55,7 +55,7 @@ export default function EducationItem({
             >
                 <div className="flex-1">
                     <h3 className="font-medium">
-                        {data?.school || `${t('new education')} #${index + 1}`}{' '}
+                        {data?.position || `${t('new work experience')} #${index + 1}`}{' '}
                         <span className="text-gray-500">
                             {data?.startYear && (
                                 <>
@@ -74,12 +74,9 @@ export default function EducationItem({
                             )}
                         </span>
                     </h3>
-                    {data?.degree && <p className="mt-1 text-sm text-gray-500">{data?.degree}</p>}
-                    {data?.gpa && (
+                    {data?.company && (
                         <p className="mt-1 text-sm text-gray-500">
-                            <span>
-                                {t('gpa')}: {data?.gpa}
-                            </span>
+                            {data?.company} - {data?.city}, {data?.country}
                         </p>
                     )}
                 </div>
@@ -96,25 +93,52 @@ export default function EducationItem({
             {expanded && (
                 <div className="space-y-4 p-4">
                     <div>
-                        <label className="mb-1 block text-sm font-medium">{t('school name')}</label>
+                        <label className="mb-1 block text-sm font-medium">{t('company')}</label>
                         <input
-                            value={data?.school}
-                            onChange={e => handleInputChange(e, 'school')}
-                            placeholder={t('school example')}
+                            value={data?.company}
+                            onChange={e => handleInputChange(e, 'company')}
+                            placeholder={t('company example')}
                             className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                data?.school ? 'bg-gray-100' : 'bg-white'
+                                data?.company ? 'bg-gray-100' : 'bg-white'
                             }`}
                         />
                     </div>
 
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="mb-1 block text-sm font-medium">{t('city')}</label>
+                            <input
+                                type="text"
+                                value={data?.city}
+                                onChange={e => handleInputChange(e, 'city')}
+                                placeholder={t('city example')}
+                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                    data?.city ? 'bg-gray-100' : 'bg-white'
+                                }`}
+                            />
+                        </div>
+                        <div>
+                            <label className="mb-1 block text-sm font-medium">{t('country')}</label>
+                            <input
+                                type="text"
+                                value={data?.country}
+                                onChange={e => handleInputChange(e, 'country')}
+                                placeholder={t('country example')}
+                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                    data?.country ? 'bg-gray-100' : 'bg-white'
+                                }`}
+                            />
+                        </div>
+                    </div>
+
                     <div>
-                        <label className="mb-1 block text-sm font-medium">{t('degree')}</label>
+                        <label className="mb-1 block text-sm font-medium">{t('position')}</label>
                         <input
-                            value={data?.degree}
-                            onChange={e => handleInputChange(e, 'degree')}
-                            placeholder={t('degree example')}
+                            value={data?.position}
+                            onChange={e => handleInputChange(e, 'position')}
+                            placeholder={t('position example')}
                             className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                data?.degree ? 'bg-gray-100' : 'bg-white'
+                                data?.position ? 'bg-gray-100' : 'bg-white'
                             }`}
                         />
                     </div>
@@ -123,7 +147,7 @@ export default function EducationItem({
                         <label className="mb-1 block text-sm font-medium">
                             {t('present')}{' '}
                             <span className="text-sm font-light text-gray-700">
-                                ({t('currently studying')})
+                                ({t('currently working')})
                             </span>
                         </label>
                         <button
@@ -196,20 +220,19 @@ export default function EducationItem({
                         )}
                     </div>
 
-                    {!data?.isPresent && (
-                        <div>
-                            <label className="mb-1 block text-sm font-medium">{t('gpa')}</label>
-                            <input
-                                type="text"
-                                value={data?.gpa}
-                                onChange={e => handleInputChange(e, 'gpa')}
-                                placeholder={t('gpa example')}
-                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                    data?.gpa ? 'bg-gray-100' : 'bg-white'
-                                }`}
-                            />
-                        </div>
-                    )}
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            {t('job description')}
+                        </label>
+                        <textarea
+                            value={data?.jobDescription}
+                            onChange={e => handleInputChange(e, 'jobDescription')}
+                            placeholder={t('job description example')}
+                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                data?.jobDescription ? 'bg-gray-100' : 'bg-white'
+                            }`}
+                        />
+                    </div>
 
                     <div className="flex justify-end gap-2 pt-2">
                         <button
