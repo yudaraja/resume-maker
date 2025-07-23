@@ -1,12 +1,23 @@
 import React from 'react'
 
-const AddSectionButton = ({ optionalSections, setOptionalSections, t }) => {
+const AddSectionButton = ({ optionalSections, setOptionalSections, setSectionOrder, t }) => {
+    const handleAddSection = key => {
+        setOptionalSections(prev => ({ ...prev, [key]: true }))
+
+        setSectionOrder(prev => {
+            if (!prev.includes(key)) {
+                return [...prev, key]
+            }
+            return prev
+        })
+    }
+
     return (
         <div className="mb-6 flex flex-wrap gap-2">
-            {!optionalSections.experience && (
+            {!optionalSections.workExperience && (
                 <button
                     className="cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors duration-200 hover:bg-black hover:text-white"
-                    onClick={() => setOptionalSections(prev => ({ ...prev, experience: true }))}
+                    onClick={() => handleAddSection('workExperience')}
                 >
                     + {t('add experience')}
                 </button>
@@ -14,7 +25,7 @@ const AddSectionButton = ({ optionalSections, setOptionalSections, t }) => {
             {!optionalSections.skills && (
                 <button
                     className="cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors duration-200 hover:bg-black hover:text-white"
-                    onClick={() => setOptionalSections(prev => ({ ...prev, skills: true }))}
+                    onClick={() => handleAddSection('skills')}
                 >
                     + {t('add skills')}
                 </button>
@@ -22,7 +33,7 @@ const AddSectionButton = ({ optionalSections, setOptionalSections, t }) => {
             {!optionalSections.organizations && (
                 <button
                     className="cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors duration-200 hover:bg-black hover:text-white"
-                    onClick={() => setOptionalSections(prev => ({ ...prev, organizations: true }))}
+                    onClick={() => handleAddSection('organizations')}
                 >
                     + {t('add organizations')}
                 </button>

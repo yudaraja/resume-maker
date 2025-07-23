@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { getFromLocalStorage, updateLocalStorage } from '../../../utils/localStorageHelper'
+import { getFromLocalStorage, updateLocalStorage } from '../../../../utils/localStorageHelper'
 import {
     closestCenter,
     DndContext,
@@ -12,15 +12,15 @@ import { v4 as uuidv4 } from 'uuid'
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { t } from 'i18next'
 import { CirclePlusIcon } from 'lucide-react'
-import WorkExperienceItem from './WorkExperienceItem'
+import OrganizationsItem from './OrganizationsItem'
 
-export default function WorkExperienceList({ setCvData }) {
-    const [localWorkExperienceList, setLocalWorkExperienceList] = useState([])
+export default function OrganizationsList({ setCvData }) {
+    const [localOrganizationsList, setLocalOrganizationsList] = useState([])
     const isFirstLoad = useRef(true)
     const [expandedId, setExpandedId] = useState(null)
 
     useEffect(() => {
-        setLocalWorkExperienceList(getFromLocalStorage()?.workExperience || [])
+        setLocalOrganizationsList(getFromLocalStorage()?.organizations || [])
     }, [])
 
     useEffect(() => {
@@ -29,10 +29,10 @@ export default function WorkExperienceList({ setCvData }) {
             return
         }
 
-        if (localWorkExperienceList.length > 0) {
-            updateLocalStorage('workExperience', localWorkExperienceList)
+        if (localOrganizationsList.length > 0) {
+            updateLocalStorage('organizations', localOrganizationsList)
         }
-    }, [localWorkExperienceList])
+    }, [localOrganizationsList])
 
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 
@@ -41,25 +41,23 @@ export default function WorkExperienceList({ setCvData }) {
     const handleDragEnd = event => {
         const { active, over } = event
         if (active.id !== over.id) {
-            const oldIndex = localWorkExperienceList.findIndex(item => item.id === active.id)
-            const newIndex = localWorkExperienceList.findIndex(item => item.id === over.id)
-            const updated = arrayMove(localWorkExperienceList, oldIndex, newIndex)
+            const oldIndex = localOrganizationsList.findIndex(item => item.id === active.id)
+            const newIndex = localOrganizationsList.findIndex(item => item.id === over.id)
+            const updated = arrayMove(localOrganizationsList, oldIndex, newIndex)
 
-            setLocalWorkExperienceList(updated)
-            updateLocalStorage('workExperience', updated)
-            setCvData(prev => ({ ...prev, workExperience: updated }))
+            setLocalOrganizationsList(updated)
+            updateLocalStorage('organizations', updated)
+            setCvData(prev => ({ ...prev, organizations: updated }))
         }
     }
 
     const handleAdd = () => {
-        setLocalWorkExperienceList([
-            ...localWorkExperienceList,
+        setLocalOrganizationsList([
+            ...localOrganizationsList,
             {
                 id: uuidv4(),
-                company: '',
+                organization: '',
                 position: '',
-                city: '',
-                country: '',
                 startYear: '',
                 endYear: '',
                 startMonth: '',
@@ -71,21 +69,21 @@ export default function WorkExperienceList({ setCvData }) {
     }
 
     const handleChange = (id, newData) => {
-        const updated = localWorkExperienceList.map(item =>
+        const updated = localOrganizationsList.map(item =>
             item.id === id ? { ...item, ...newData } : item
         )
-        setLocalWorkExperienceList(updated)
+        setLocalOrganizationsList(updated)
 
-        updateLocalStorage('workExperience', updated)
-        setCvData(prev => ({ ...prev, workExperience: updated }))
+        updateLocalStorage('organizations', updated)
+        setCvData(prev => ({ ...prev, organizations: updated }))
     }
 
     const handleDelete = id => {
-        const updated = localWorkExperienceList.filter(item => item.id !== id)
+        const updated = localOrganizationsList.filter(item => item.id !== id)
 
-        setLocalWorkExperienceList(updated)
-        updateLocalStorage('workExperience', updated)
-        setCvData(prev => ({ ...prev, workExperience: updated }))
+        setLocalOrganizationsList(updated)
+        updateLocalStorage('organizations', updated)
+        setCvData(prev => ({ ...prev, organizations: updated }))
     }
 
     return (
@@ -96,12 +94,12 @@ export default function WorkExperienceList({ setCvData }) {
                 onDragEnd={handleDragEnd}
             >
                 <SortableContext
-                    items={localWorkExperienceList.map(item => item.id)}
+                    items={localOrganizationsList.map(item => item.id)}
                     strategy={verticalListSortingStrategy}
                 >
-                    {localWorkExperienceList?.length > 0
-                        ? localWorkExperienceList.map((item, index) => (
-                              <WorkExperienceItem
+                    {localOrganizationsList?.length > 0
+                        ? localOrganizationsList.map((item, index) => (
+                              <OrganizationsItem
                                   key={item.id}
                                   id={item.id}
                                   index={index}
@@ -121,7 +119,7 @@ export default function WorkExperienceList({ setCvData }) {
                 className="mt-4 flex w-full cursor-pointer items-center justify-center gap-1 rounded bg-gray-300 px-4 py-4 text-sm transition-all duration-300 hover:bg-gray-400 md:text-base"
             >
                 <CirclePlusIcon className="h-4" />
-                <span className="leading-none">{t('add experience')}</span>
+                <span className="leading-none">{t('add organization')}</span>
             </button>
         </div>
     )
