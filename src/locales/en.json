@@ -72,5 +72,18 @@
         "12": "December"
     },
     "select month": "Select Month",
-    "select year": "Select Year"
+    "select year": "Select Year",
+    "add organization": "Add Organization",
+    "new organization": "New Organization",
+    "organization": "Organization",
+    "organization example": "Example: Technology Community",
+    "organization position example": "Example: Head of the Department",
+    "organization job description example": "Example: Organizing events and activities for the technology community",
+    "confirm remove section": "Are you sure you want to remove this section? All data inside will be deleted.",
+    "technical skills": "Technical Skills",
+    "non-technical skills": "Non-Technical Skills",
+    "add technical skills": "Add Technical Skills",
+    "add non-technical skills": "Add Non-Technical Skills",
+    "confirm remove skill": "Are you sure you want to remove this skill?",
+    "added details": "Added Details"
 }

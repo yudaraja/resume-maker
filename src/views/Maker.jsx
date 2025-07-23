@@ -1,22 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import EducationList from '../components/resume-maker/education/EducationList'
 import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../components/LanguageSwitcher'
-import { DownloadIcon, SearchIcon } from 'lucide-react'
 import { getFromLocalStorage, updateLocalStorage } from '../utils/localStorageHelper'
-import PersonalDetails from '../components/resume-maker/PersonalDetails'
-import PreviewCV from '../components/resume-maker/PreviewCV'
-import Description from '../components/resume-maker/Description'
+import LanguageSwitcher from '../components/resume-maker/common/LanguageSwitcher'
+import SectionWrapper from '../components/resume-maker/common/SectionWrapper'
+import OptionalSection from '../components/resume-maker/common/OptionalSection'
+import AddSectionButton from '../components/resume-maker/common/AddSectionButton'
+import TemplateATS from '../components/resume-maker/templates/TemplateATS'
+import PersonalDetails from '../components/resume-maker/sections/PersonalDetails'
+import Description from '../components/resume-maker/sections/Description'
+import EducationList from '../components/resume-maker/sections/education/EducationList'
+import WorkExperienceList from '../components/resume-maker/sections/work-experience/WorkExperienceList'
+import OrganizationsList from '../components/resume-maker/sections/organizations/OrganizationsList'
+import SkillList from '../components/resume-maker/sections/skills/SkillList'
+import HintTooltip from '../components/HintTooltip'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import TemplateATSPDF from '../components/resume-maker/templates/TemplateATS_PDF'
-import SectionWrapper from '../components/resume-maker/SectionWrapper'
-import AddSectionButton from '../components/resume-maker/AddSectionButton'
-import OptionalSection from '../components/resume-maker/OptionalSection'
-import WorkExperienceList from '../components/resume-maker/work-experience/workExperienceList'
+import { ArrowDown, CircleArrowDown, CircleArrowUp, DownloadIcon, Section } from 'lucide-react'
 
 const Maker = () => {
     const { t } = useTranslation()
-    const [cvData, setCvData] = useState(getFromLocalStorage())
+    const [cvData, setCvData] = useState(() => {
+        const data = getFromLocalStorage()
+        return {
+            ...data,
+            sectionOrder: data?.sectionOrder?.length ? data.sectionOrder : ['education'],
+        }
+    })
+
+    const [sectionOrder, setSectionOrder] = useState(cvData.sectionOrder)
 
     const [optionalSections, setOptionalSections] = useState({
         experience: false,
@@ -24,24 +34,137 @@ const Maker = () => {
         organizations: false,
     })
 
+    const moveSection = (key, direction) => {
+        setSectionOrder(prev => {
+            const index = prev.indexOf(key)
+            const newIndex = direction === 'up' ? index - 1 : index + 1
+
+            if (newIndex < 0 || newIndex >= prev.length) return prev
+
+            const newOrder = [...prev]
+            const [movedItem] = newOrder.splice(index, 1)
+            newOrder.splice(newIndex, 0, movedItem)
+
+            return newOrder
+        })
+    }
+
+    const renderSection = (key, index) => {
+        const isFirst = index === 0
+        const isLast = index === sectionOrder.length - 1
+
+        const moveButtons = (
+            <div className="mb-2 flex gap-3">
+                <button
+                    onClick={() => moveSection(key, 'up')}
+                    disabled={isFirst}
+                    title={isFirst ? 'Already first section' : 'Move section up'}
+                >
+                    <CircleArrowUp className={isFirst ? 'text-gray-300' : ''} />
+                </button>
+                <button
+                    onClick={() => moveSection(key, 'down')}
+                    disabled={isLast}
+                    title={isLast ? 'Already last section' : 'Move section down'}
+                >
+                    <CircleArrowDown className={isLast ? 'text-gray-300' : ''} />
+                </button>
+            </div>
+        )
+
+        switch (key) {
+            case 'education':
+                return (
+                    <SectionWrapper title={t('education')} key={key}>
+                        {moveButtons}
+                        <EducationList education={cvData.education} setCvData={setCvData} />
+                    </SectionWrapper>
+                )
+            case 'workExperience':
+                return (
+                    optionalSections.workExperience && (
+                        <OptionalSection
+                            title={t('work experience')}
+                            onRemove={() => handleRemoveSection('workExperience')}
+                            key={key}
+                        >
+                            {moveButtons}
+                            <WorkExperienceList
+                                workExperience={cvData.workExperience}
+                                setCvData={setCvData}
+                            />
+                        </OptionalSection>
+                    )
+                )
+            case 'organizations':
+                return (
+                    optionalSections.organizations && (
+                        <OptionalSection
+                            title={t('organizations')}
+                            onRemove={() => handleRemoveSection('organizations')}
+                            key={key}
+                        >
+                            {moveButtons}
+                            <OrganizationsList
+                                organizations={cvData.organizations}
+                                setCvData={setCvData}
+                            />
+                        </OptionalSection>
+                    )
+                )
+            case 'skills':
+                return (
+                    optionalSections.skills && (
+                        <OptionalSection
+                            title={t('skills')}
+                            onRemove={() => handleRemoveSection('skills')}
+                            key={key}
+                        >
+                            {moveButtons}
+                            <SkillList skillList={cvData.skills} setCvData={setCvData} />
+                        </OptionalSection>
+                    )
+                )
+            default:
+                return null
+        }
+    }
+
+    useEffect(() => {
+        updateLocalStorage('sectionOrder', sectionOrder)
+    }, [sectionOrder])
+
+    useEffect(() => {
+        setCvData(prev => {
+            const updated = { ...prev, sectionOrder }
+            updateLocalStorage('cvData', updated)
+            return updated
+        })
+    }, [sectionOrder])
+
     useEffect(() => {
         setOptionalSections(prev => ({
             ...prev,
-            experience: cvData?.workExperience?.length > 0,
-            skills: cvData?.skills?.length > 0,
-            organizations: cvData?.organizations?.length > 0,
+            workExperience: cvData?.sectionOrder?.includes('workExperience'),
+            skills: cvData?.sectionOrder?.includes('skills'),
+            organizations: cvData?.sectionOrder?.includes('organizations'),
         }))
     }, [cvData])
 
     const handleRemoveSection = key => {
-        console.log('Removing section:', key)
+        const confirmDelete = window.confirm(t('confirm remove section'))
+
+        if (!confirmDelete) return
 
         setOptionalSections(prev => ({ ...prev, [key]: false }))
+
         setCvData(prev => {
             const updated = { ...prev, [key]: [] }
             updateLocalStorage(key, [])
             return updated
         })
+
+        setSectionOrder(prev => prev.filter(item => item !== key))
     }
 
     return (
@@ -64,55 +187,30 @@ const Maker = () => {
                         />
                     </div>
 
-                    <SectionWrapper title={t('description')}>
+                    <SectionWrapper
+                        title={
+                            <div className="flex items-center gap-2">
+                                {t('description')}
+                                <HintTooltip title="Tulis ringkasan singkat tentang dirimu: pengalaman, keahlian utama, atau tujuan karier. Hindari kata klise, dan fokus pada pencapaian atau nilai tambah yang kamu tawarkan." />
+                            </div>
+                        }
+                    >
                         <Description description={cvData.description} setCvData={setCvData} />
                     </SectionWrapper>
 
-                    <SectionWrapper title={t('education')}>
-                        <EducationList education={cvData.education} setCvData={setCvData} />
-                    </SectionWrapper>
-
-                    {optionalSections.experience && (
-                        <OptionalSection
-                            title={t('work experience')}
-                            onRemove={() => handleRemoveSection('workExperience')}
-                        >
-                            <WorkExperienceList
-                                workExperience={cvData.workExperience}
-                                setCvData={setCvData}
-                            />
-                        </OptionalSection>
-                    )}
-
-                    {optionalSections.organizations && (
-                        <OptionalSection
-                            title={t('organizations')}
-                            onRemove={() => handleRemoveSection('organizations')}
-                        >
-                            <div className="text-gray-500 italic">
-                                Organization section goes here...
-                            </div>
-                        </OptionalSection>
-                    )}
-
-                    {optionalSections.skills && (
-                        <OptionalSection
-                            title={t('skills')}
-                            onRemove={() => handleRemoveSection('skills')}
-                        >
-                            <div className="text-gray-500 italic">Skills section goes here...</div>
-                        </OptionalSection>
-                    )}
+                    {sectionOrder.map((key, index) => renderSection(key, index))}
 
                     <AddSectionButton
                         optionalSections={optionalSections}
                         setOptionalSections={setOptionalSections}
+                        sectionOrder={sectionOrder}
+                        setSectionOrder={setSectionOrder}
                         t={t}
                     />
 
                     <div className="flex w-full max-w-4xl items-center justify-between gap-2 rounded-lg bg-white p-6 shadow-xl md:justify-end">
                         <PDFDownloadLink
-                            document={<TemplateATSPDF data={cvData} />}
+                            document={<TemplateATS data={cvData} />}
                             key={Date.now()}
                             fileName="cv.pdf"
                             className="flex cursor-pointer items-center justify-center gap-1 rounded bg-blue-600 px-3 py-3 text-sm text-white transition-all duration-300 hover:bg-blue-800"

@@ -31,6 +31,7 @@
     "github example": "Contoh: https://github.com/username",
     "linkedin": "LinkedIn",
     "linkedin example": "Contoh: https://linkedin.com/in/username",
+    "added details": "Detail Tambahan",
     "add details": "Tambah Detail",
     "cv language": "Bahasa CV",
     "personal details": "Detail Pribadi",
@@ -72,5 +73,17 @@
         "12": "Desember"
     },
     "select month": "Pilih Bulan",
-    "select year": "Pilih Tahun"
+    "select year": "Pilih Tahun",
+    "add organization": "Tambah Organisasi",
+    "new organization": "Organisasi Baru",
+    "organization": " Organisasi",
+    "organization example": "Contoh: Komunitas Teknologi",
+    "organization position example": "Contoh: Kepala Departemen",
+    "organization job description example": "Contoh: Mengorganisir acara dan kegiatan komunitas teknologi",
+    "confirm remove section": "Apakah Anda yakin ingin menghapus bagian ini? Semua data di dalamnya akan dihapus.",
+    "technical skills": "Keterampilan Teknis",
+    "non-technical skills": "Keterampilan Non-Teknis",
+    "add technical skills": "Tambah Keterampilan Teknis",
+    "add non-technical skills": "Tambah Keterampilan Non-Teknis",
+    "confirm remove skill": "Apakah Anda yakin ingin menghapus keterampilan ini?"
 }

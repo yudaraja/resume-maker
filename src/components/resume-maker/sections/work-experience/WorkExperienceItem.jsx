@@ -3,7 +3,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { t } from 'i18next'
 import { TrashIcon } from 'lucide-react'
 import { useState } from 'react'
-import MonthSelect from '../MonthSelect'
+import MonthSelect from '../../common/MonthSelect'
 
 export default function WorkExperienceItem({
     id,
@@ -54,7 +54,7 @@ export default function WorkExperienceItem({
                 onClick={() => toggleExpanded()}
             >
                 <div className="flex-1">
-                    <h3 className="font-medium">
+                    <h3 className="flex flex-col font-medium md:flex-row">
                         {data?.position || `${t('new work experience')} #${index + 1}`}{' '}
                         <span className="text-gray-500">
                             {data?.startYear && (

@@ -1,6 +1,6 @@
 import { CirclePlusIcon } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
-import { updateLocalStorage } from '../../utils/localStorageHelper'
+import { updateLocalStorage } from '../../../utils/localStorageHelper'
 import { t } from 'i18next'
 
 const PersonalDetails = ({ personalDetails, setCvData }) => {
@@ -43,7 +43,7 @@ const PersonalDetails = ({ personalDetails, setCvData }) => {
                 />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 md:grid-cols-2">
                 <div>
                     <label className="mb-1 block text-sm font-medium">{t('email')}</label>
                     <input
@@ -83,7 +83,7 @@ const PersonalDetails = ({ personalDetails, setCvData }) => {
                 />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 md:grid-cols-2">
                 <div>
                     <label className="mb-1 block text-sm font-medium">{t('city')}</label>
                     <input
@@ -111,44 +111,52 @@ const PersonalDetails = ({ personalDetails, setCvData }) => {
             </div>
 
             {addDetails && (
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="mb-1 block text-sm font-medium">{t('github')}</label>
-                        <input
-                            type="text"
-                            value={personalDetails.github ? personalDetails.github : ''}
-                            onChange={e => handleChange('github', e.target.value)}
-                            placeholder={t('github example')}
-                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                personalDetails.github ? 'bg-gray-100' : 'bg-white'
-                            }`}
-                        />
+                <>
+                    <div className="font-semibold">{t('added details')}</div>
+                    <hr />
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label className="mb-1 block text-sm font-medium">{t('github')}</label>
+                            <input
+                                type="text"
+                                value={personalDetails.github ? personalDetails.github : ''}
+                                onChange={e => handleChange('github', e.target.value)}
+                                placeholder={t('github example')}
+                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                    personalDetails.github ? 'bg-gray-100' : 'bg-white'
+                                }`}
+                            />
+                        </div>
+                        <div>
+                            <label className="mb-1 block text-sm font-medium">
+                                {t('linkedin')}
+                            </label>
+                            <input
+                                type="text"
+                                value={personalDetails.linkedin ? personalDetails.linkedin : ''}
+                                onChange={e => handleChange('linkedin', e.target.value)}
+                                placeholder={t('linkedin example')}
+                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                    personalDetails.linkedin ? 'bg-gray-100' : 'bg-white'
+                                }`}
+                            />
+                        </div>
+                        <div>
+                            <label className="mb-1 block text-sm font-medium">
+                                {t('Portfolio')}
+                            </label>
+                            <input
+                                type="text"
+                                value={personalDetails.portfolio ? personalDetails.portfolio : ''}
+                                onChange={e => handleChange('portfolio', e.target.value)}
+                                placeholder={t('portfolio example')}
+                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                    personalDetails.portfolio ? 'bg-gray-100' : 'bg-white'
+                                }`}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label className="mb-1 block text-sm font-medium">{t('linkedin')}</label>
-                        <input
-                            type="text"
-                            value={personalDetails.linkedin ? personalDetails.linkedin : ''}
-                            onChange={e => handleChange('linkedin', e.target.value)}
-                            placeholder={t('linkedin example')}
-                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                personalDetails.linkedin ? 'bg-gray-100' : 'bg-white'
-                            }`}
-                        />
-                    </div>
-                    <div>
-                        <label className="mb-1 block text-sm font-medium">{t('Portfolio')}</label>
-                        <input
-                            type="text"
-                            value={personalDetails.portfolio ? personalDetails.portfolio : ''}
-                            onChange={e => handleChange('portfolio', e.target.value)}
-                            placeholder={t('portfolio example')}
-                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                personalDetails.portfolio ? 'bg-gray-100' : 'bg-white'
-                            }`}
-                        />
-                    </div>
-                </div>
+                </>
             )}
 
             {!addDetails && (

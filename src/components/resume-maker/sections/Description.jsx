@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { updateLocalStorage } from '../../utils/localStorageHelper'
+import { updateLocalStorage } from '../../../utils/localStorageHelper'
 
 const Description = ({ description, setCvData }) => {
     const isFirstLoad = useRef(true)

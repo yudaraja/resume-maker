@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 import React from 'react'
 
 const OptionalSection = ({ title, onRemove, children }) => (
@@ -8,7 +9,7 @@ const OptionalSection = ({ title, onRemove, children }) => (
                 onClick={onRemove}
                 className="cursor-pointer text-sm text-red-500 hover:underline"
             >
-                Remove section
+                {t('remove section')}
             </button>
         </div>
         {children}

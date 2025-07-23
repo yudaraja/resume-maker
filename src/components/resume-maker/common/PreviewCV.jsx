@@ -1,4 +1,4 @@
-import TemplateATS from './templates/TemplateATS.jsx'
+import TemplateATS from '../templates/TemplateATS.jsx'
 
 const templateComponents = {
     ats: TemplateATS,
