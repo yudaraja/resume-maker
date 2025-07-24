@@ -14,7 +14,18 @@ import OrganizationsList from '../components/resume-maker/sections/organizations
 import SkillList from '../components/resume-maker/sections/skills/SkillList'
 import HintTooltip from '../components/HintTooltip'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import { ArrowDown, CircleArrowDown, CircleArrowUp, DownloadIcon, Section } from 'lucide-react'
+import {
+    ArrowDown,
+    ArrowLeft,
+    BadgeQuestionMark,
+    CircleArrowDown,
+    CircleArrowUp,
+    CircleQuestionMark,
+    DownloadIcon,
+    Section,
+} from 'lucide-react'
+import Footer from '../components/Footer'
+import HowToModal from '../components/HowToModal'
 
 const Maker = () => {
     const { t } = useTranslation()
@@ -170,7 +181,23 @@ const Maker = () => {
     return (
         <>
             <div className="flex min-h-screen items-center justify-center bg-gray-100 px-[5%] py-20 md:px-[10%]">
-                <div className="flex w-full flex-col items-center gap-6">
+                <div className="flex w-full max-w-screen-md flex-col items-center gap-6">
+                    <div className="flex w-full flex-row items-center justify-between gap-4">
+                        <div className="flex w-auto">
+                            <a
+                                href="/"
+                                className="flex items-center justify-center rounded-xl bg-black px-4 py-3 text-sm text-white shadow-md transition duration-300 hover:bg-gray-700"
+                            >
+                                <ArrowLeft className="h-5 w-5" />
+                                <span className="ml-2 hidden md:inline">Kembali ke Beranda</span>
+                            </a>
+                        </div>
+
+                        <div className="flex w-auto justify-end self-end">
+                            <HowToModal variant="text" />
+                        </div>
+                    </div>
+
                     <div className="w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl">
                         <div className="flex justify-between">
                             <div className="pb-4 text-xl font-semibold">
@@ -208,12 +235,12 @@ const Maker = () => {
                         t={t}
                     />
 
-                    <div className="flex w-full max-w-4xl items-center justify-between gap-2 rounded-lg bg-white p-6 shadow-xl md:justify-end">
+                    <div className="flex w-full max-w-4xl justify-end rounded-lg bg-white p-6 shadow-xl">
                         <PDFDownloadLink
                             document={<TemplateATS data={cvData} />}
                             key={Date.now()}
-                            fileName="cv.pdf"
-                            className="flex cursor-pointer items-center justify-center gap-1 rounded bg-blue-600 px-3 py-3 text-sm text-white transition-all duration-300 hover:bg-blue-800"
+                            fileName={`CV_${cvData?.personalDetails?.name || 'TanpaNama'}_${new Date().toISOString().split('T')[0]}.pdf`}
+                            className="flex items-center justify-center gap-1 rounded bg-blue-600 px-3 py-3 text-sm text-white transition-all duration-300 hover:bg-blue-800"
                         >
                             <DownloadIcon className="h-4" />
                             <span className="leading-none">Download</span>

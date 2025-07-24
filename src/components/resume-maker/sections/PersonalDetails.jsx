@@ -112,8 +112,8 @@ const PersonalDetails = ({ personalDetails, setCvData }) => {
 
             {addDetails && (
                 <>
-                    <div className="font-semibold">{t('added details')}</div>
-                    <hr />
+                    <div className="mt-6 text-lg font-semibold">{t('added details')}</div>
+                    <hr className="mb-6 text-gray-300" />
                     <div className="grid gap-4 md:grid-cols-2">
                         <div>
                             <label className="mb-1 block text-sm font-medium">{t('github')}</label>

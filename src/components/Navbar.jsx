@@ -9,7 +9,7 @@ const Navbar = () => {
     }
 
     return (
-        <header className="flex items-center justify-between bg-sky-800 px-[10%] py-8 text-white">
+        <header className="flex items-center justify-between bg-transparent px-[10%] py-8">
             <div>CV Maker</div>
             <div>
                 <nav className="hidden px-8 py-5 text-white md:flex">

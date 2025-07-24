@@ -38,7 +38,7 @@ export default function SkillItem({ id, data: skill, onChange, onDelete }) {
                     placeholder={t('skills')}
                     value={skill?.name || ''}
                     onChange={e => handleInputChange(e, 'name')}
-                    className="w-full rounded border border-gray-300 px-2 py-1"
+                    className="w-full rounded border border-gray-300 px-2 py-1 text-sm md:text-base"
                 />
 
                 <div className="flex gap-2">

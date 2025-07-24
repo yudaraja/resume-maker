@@ -56,7 +56,7 @@ export default function EducationItem({
                 <div className="flex-1">
                     <h3 className="flex flex-col font-medium md:flex-row">
                         {data?.school || `${t('new education')} #${index + 1}`}{' '}
-                        <span className="text-gray-500">
+                        <span className="ml-1 text-gray-500">
                             {data?.startYear && (
                                 <>
                                     (

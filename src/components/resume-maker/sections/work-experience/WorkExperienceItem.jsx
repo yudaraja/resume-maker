@@ -56,7 +56,7 @@ export default function WorkExperienceItem({
                 <div className="flex-1">
                     <h3 className="flex flex-col font-medium md:flex-row">
                         {data?.position || `${t('new work experience')} #${index + 1}`}{' '}
-                        <span className="text-gray-500">
+                        <span className="ml-1 text-gray-500">
                             {data?.startYear && (
                                 <>
                                     (
