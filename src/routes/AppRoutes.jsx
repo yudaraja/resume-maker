@@ -7,9 +7,8 @@ import NotFound from '../components/NotFound'
 const AppRoutes = () => {
     return (
         <Routes>
-            <Route path="/resume-maker/" element={<Home />} />
-            <Route path="/resume-maker/create" element={<Maker />} />
-
+            <Route path="/" element={<Home />} />
+            <Route path="/create" element={<Maker />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     )

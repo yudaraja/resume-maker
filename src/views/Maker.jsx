@@ -186,7 +186,7 @@ const Maker = () => {
                     <div className="flex w-full flex-row items-center justify-between gap-4">
                         <div className="flex w-auto">
                             <Link
-                                to="/resume-maker/"
+                                to="/"
                                 className="flex items-center justify-center rounded-xl bg-black px-4 py-3 text-sm text-white shadow-md transition duration-300 hover:bg-gray-700"
                             >
                                 <ArrowLeft className="h-5 w-5" />
