@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import HowToModal from '../components/HowToModal'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
     return (
@@ -28,13 +29,13 @@ const Home = () => {
                 </p>
 
                 <div className="flex flex-col gap-4 sm:flex-row">
-                    <a
-                        href="/resume-maker/create"
+                    <Link
+                        to="/resume-maker/create"
                         className="rounded-xl bg-black px-6 py-3 text-center text-white shadow-md transition duration-300 hover:bg-gray-700"
                     >
                         Buat CV Sekarang
                         <span className="ml-2">🚀</span>
-                    </a>
+                    </Link>
                     <HowToModal />
                 </div>
             </div>

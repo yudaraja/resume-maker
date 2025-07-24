@@ -26,6 +26,7 @@ import {
 } from 'lucide-react'
 import Footer from '../components/Footer'
 import HowToModal from '../components/HowToModal'
+import { Link } from 'react-router-dom'
 
 const Maker = () => {
     const { t } = useTranslation()
@@ -184,13 +185,13 @@ const Maker = () => {
                 <div className="flex w-full max-w-screen-md flex-col items-center gap-6">
                     <div className="flex w-full flex-row items-center justify-between gap-4">
                         <div className="flex w-auto">
-                            <a
-                                href="/"
+                            <Link
+                                to="/resume-maker/"
                                 className="flex items-center justify-center rounded-xl bg-black px-4 py-3 text-sm text-white shadow-md transition duration-300 hover:bg-gray-700"
                             >
                                 <ArrowLeft className="h-5 w-5" />
                                 <span className="ml-2 hidden md:inline">Kembali ke Beranda</span>
-                            </a>
+                            </Link>
                         </div>
 
                         <div className="flex w-auto justify-end self-end">
