@@ -27,6 +27,7 @@ import {
 import Footer from '../components/Footer'
 import HowToModal from '../components/HowToModal'
 import { Link } from 'react-router-dom'
+import CertificationList from '../components/resume-maker/sections/certifications/CertificationList'
 
 const Maker = () => {
     const { t } = useTranslation()
@@ -137,6 +138,22 @@ const Maker = () => {
                         </OptionalSection>
                     )
                 )
+            case 'certifications':
+                return (
+                    optionalSections.certifications && (
+                        <OptionalSection
+                            title={t('certifications')}
+                            onRemove={() => handleRemoveSection('certifications')}
+                            key={key}
+                        >
+                            {moveButtons}
+                            <CertificationList
+                                certifications={cvData.certifications}
+                                setCvData={setCvData}
+                            />
+                        </OptionalSection>
+                    )
+                )
             default:
                 return null
         }
@@ -160,6 +177,7 @@ const Maker = () => {
             workExperience: cvData?.sectionOrder?.includes('workExperience'),
             skills: cvData?.sectionOrder?.includes('skills'),
             organizations: cvData?.sectionOrder?.includes('organizations'),
+            certifications: cvData?.sectionOrder?.includes('certifications'),
         }))
     }, [cvData])
 
@@ -218,7 +236,7 @@ const Maker = () => {
                     <SectionWrapper
                         title={
                             <div className="flex items-center gap-2">
-                                {t('description')}
+                                {t('summary')}
                                 <HintTooltip title="Tulis ringkasan singkat tentang dirimu: pengalaman, keahlian utama, atau tujuan karier. Hindari kata klise, dan fokus pada pencapaian atau nilai tambah yang kamu tawarkan." />
                             </div>
                         }

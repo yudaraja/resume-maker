@@ -4,6 +4,7 @@ import { t } from 'i18next'
 import { TrashIcon } from 'lucide-react'
 import { useState } from 'react'
 import MonthSelect from '../../common/MonthSelect'
+import YearSelect from '../../common/YearSelect'
 
 export default function WorkExperienceItem({
     id,
@@ -173,7 +174,7 @@ export default function WorkExperienceItem({
                                 {t('start month')}
                             </label>
                             <MonthSelect
-                                value={data?.startMonth}
+                                value={data?.startMonth || ''}
                                 onChange={val => handleInputChange(null, 'startMonth', val)}
                             />
                         </div>
@@ -181,14 +182,9 @@ export default function WorkExperienceItem({
                             <label className="mb-1 block text-sm font-medium">
                                 {t('start year')}
                             </label>
-                            <input
-                                type="number"
+                            <YearSelect
                                 value={data?.startYear}
-                                onChange={e => handleInputChange(e, 'startYear')}
-                                placeholder={t('start year example')}
-                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                    data?.startYear ? 'bg-gray-100' : 'bg-white'
-                                }`}
+                                onChange={val => handleInputChange(null, 'startYear', val)}
                             />
                         </div>
                         {!data?.isPresent && (
@@ -198,7 +194,7 @@ export default function WorkExperienceItem({
                                         {t('end month')}
                                     </label>
                                     <MonthSelect
-                                        value={data?.endMonth}
+                                        value={data?.endMonth || ''}
                                         onChange={val => handleInputChange(null, 'endMonth', val)}
                                     />
                                 </div>
@@ -206,14 +202,9 @@ export default function WorkExperienceItem({
                                     <label className="mb-1 block text-sm font-medium">
                                         {t('end year')}
                                     </label>
-                                    <input
-                                        type="number"
+                                    <YearSelect
                                         value={data?.endYear}
-                                        onChange={e => handleInputChange(e, 'endYear')}
-                                        placeholder={t('end year example')}
-                                        className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                            data?.endYear ? 'bg-gray-100' : 'bg-white'
-                                        }`}
+                                        onChange={val => handleInputChange(null, 'endYear', val)}
                                     />
                                 </div>
                             </>

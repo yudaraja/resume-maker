@@ -13,7 +13,7 @@
     "end year": "Tahun Selesai",
     "end year example": "Contoh: 2021",
     "delete": "Hapus",
-    "delete education": "Apakah Anda yakin ingin menghapus item pendidikan ini?",
+    "delete education": "Apakah Anda yakin ingin menghapus item ini?",
     "cancel": "Batal",
     "name": "Nama",
     "name example": "Contoh: John Doe",
@@ -85,5 +85,17 @@
     "non-technical skills": "Keterampilan Non-Teknis",
     "add technical skills": "Tambah Keterampilan Teknis",
     "add non-technical skills": "Tambah Keterampilan Non-Teknis",
-    "confirm remove skill": "Apakah Anda yakin ingin menghapus keterampilan ini?"
+    "confirm remove skill": "Apakah Anda yakin ingin menghapus keterampilan ini?",
+    "summary": "Ringkasan",
+    "certification name": "Nama Sertifikasi",
+    "certification name example": "Contoh: Sertifikasi Google Cloud",
+    "issuer": "Penerbit",
+    "issuer example": "Contoh: Google",
+    "credential": "Nomor Sertifikasi",
+    "credential example": "Contoh: GCP-123456",
+    "month": "Bulan",
+    "year": "Tahun",
+    "add certification": "Tambah Sertifikasi",
+    "certifications": "Sertifikasi",
+    "new certification": "Sertifikasi Baru"
 }
