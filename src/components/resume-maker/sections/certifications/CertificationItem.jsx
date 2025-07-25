@@ -6,7 +6,7 @@ import { useState } from 'react'
 import MonthSelect from '../../common/MonthSelect'
 import YearSelect from '../../common/YearSelect'
 
-export default function EducationItem({
+export default function CertificationItem({
     id,
     index,
     data,
@@ -56,31 +56,22 @@ export default function EducationItem({
             >
                 <div className="flex-1">
                     <h3 className="flex flex-col font-medium md:flex-row">
-                        {data?.school || `${t('new education')} #${index + 1}`}{' '}
+                        {data?.name || `${t('new certification')} #${index + 1}`}{' '}
                         <span className="ml-1 text-gray-500">
-                            {data?.startYear && (
+                            {data?.year && (
                                 <>
                                     (
-                                    {data.startMonth
-                                        ? `${t(`months.${data.startMonth}`)} ${data.startYear}`
-                                        : data.startYear}
-                                    {data?.endMonth || data?.endYear || data.isPresent ? ' - ' : ''}
-                                    {data?.isPresent
-                                        ? t('present')
-                                        : data?.endMonth
-                                          ? `${t(`months.${data.endMonth}`)} ${data.endYear}`
-                                          : data?.endYear || ''}
+                                    {data.month
+                                        ? `${t(`months.${data.month}`)} ${data.year}`
+                                        : data.year || ''}
                                     )
                                 </>
                             )}
                         </span>
                     </h3>
-                    {data?.degree && <p className="mt-1 text-sm text-gray-500">{data?.degree}</p>}
-                    {data?.gpa && (
+                    {data?.issuer && (
                         <p className="mt-1 text-sm text-gray-500">
-                            <span>
-                                {t('gpa')}: {data?.gpa}
-                            </span>
+                            {data?.issuer} - {data?.credential}
                         </p>
                     )}
                 </div>
@@ -97,110 +88,59 @@ export default function EducationItem({
             {expanded && (
                 <div className="space-y-4 p-4">
                     <div>
-                        <label className="mb-1 block text-sm font-medium">{t('school name')}</label>
-                        <input
-                            value={data?.school}
-                            onChange={e => handleInputChange(e, 'school')}
-                            placeholder={t('school example')}
-                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                data?.school ? 'bg-gray-100' : 'bg-white'
-                            }`}
-                        />
-                    </div>
-
-                    <div>
-                        <label className="mb-1 block text-sm font-medium">{t('degree')}</label>
-                        <input
-                            value={data?.degree}
-                            onChange={e => handleInputChange(e, 'degree')}
-                            placeholder={t('degree example')}
-                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                data?.degree ? 'bg-gray-100' : 'bg-white'
-                            }`}
-                        />
-                    </div>
-
-                    <div>
                         <label className="mb-1 block text-sm font-medium">
-                            {t('present')}{' '}
-                            <span className="text-sm font-light text-gray-700">
-                                ({t('currently studying')})
-                            </span>
+                            {t('certification name')}
                         </label>
-                        <button
-                            type="button"
-                            role="switch"
-                            aria-checked={data?.isPresent}
-                            onClick={() => handleInputChange(null, 'isPresent', !data?.isPresent)}
-                            className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ${
-                                data?.isPresent ? 'bg-black' : 'bg-gray-300'
+                        <input
+                            value={data?.name}
+                            onChange={e => handleInputChange(e, 'name')}
+                            placeholder={t('certification name example')}
+                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                data?.name ? 'bg-gray-100' : 'bg-white'
                             }`}
-                        >
-                            <span
-                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                                    data?.isPresent ? 'translate-x-6' : 'translate-x-1'
-                                }`}
-                            />
-                        </button>
+                        />
+                    </div>
+
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">{t('issuer')}</label>
+                        <input
+                            value={data?.issuer}
+                            onChange={e => handleInputChange(e, 'issuer')}
+                            placeholder={t('issuer example')}
+                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                data?.issuer ? 'bg-gray-100' : 'bg-white'
+                            }`}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">{t('credential')}</label>
+                        <input
+                            value={data?.credential}
+                            onChange={e => handleInputChange(e, 'credential')}
+                            placeholder={t('credential example')}
+                            className={`w-full rounded border border-gray-300 p-2 text-sm ${
+                                data?.credential ? 'bg-gray-100' : 'bg-white'
+                            }`}
+                        />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="mb-1 block text-sm font-medium">
-                                {t('start month')}
-                            </label>
+                            <label className="mb-1 block text-sm font-medium">{t('month')}</label>
                             <MonthSelect
-                                value={data?.startMonth || ''}
-                                onChange={val => handleInputChange(null, 'startMonth', val)}
+                                value={data?.month}
+                                onChange={val => handleInputChange(null, 'month', val)}
                             />
                         </div>
                         <div>
-                            <label className="mb-1 block text-sm font-medium">
-                                {t('start year')}
-                            </label>
+                            <label className="mb-1 block text-sm font-medium">{t('year')}</label>
                             <YearSelect
-                                value={data?.startYear}
-                                onChange={val => handleInputChange(null, 'startYear', val)}
+                                value={data?.year}
+                                onChange={val => handleInputChange(null, 'year', val)}
                             />
                         </div>
-                        {!data?.isPresent && (
-                            <>
-                                <div>
-                                    <label className="mb-1 block text-sm font-medium">
-                                        {t('end month')}
-                                    </label>
-                                    <MonthSelect
-                                        value={data?.endMonth || ''}
-                                        onChange={val => handleInputChange(null, 'endMonth', val)}
-                                    />
-                                </div>
-                                <div>
-                                    <label className="mb-1 block text-sm font-medium">
-                                        {t('end year')}
-                                    </label>
-                                    <YearSelect
-                                        value={data?.endYear}
-                                        onChange={val => handleInputChange(null, 'endYear', val)}
-                                    />
-                                </div>
-                            </>
-                        )}
                     </div>
-
-                    {!data?.isPresent && (
-                        <div>
-                            <label className="mb-1 block text-sm font-medium">{t('gpa')}</label>
-                            <input
-                                type="text"
-                                value={data?.gpa}
-                                onChange={e => handleInputChange(e, 'gpa')}
-                                placeholder={t('gpa example')}
-                                className={`w-full rounded border border-gray-300 p-2 text-sm ${
-                                    data?.gpa ? 'bg-gray-100' : 'bg-white'
-                                }`}
-                            />
-                        </div>
-                    )}
 
                     <div className="flex justify-end gap-2 pt-2">
                         <button

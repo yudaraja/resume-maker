@@ -199,6 +199,39 @@ const TemplateATS = ({ data }) => {
                         </View>
                     )
                 )
+            case 'certifications':
+                return (
+                    Array.isArray(data?.certifications) &&
+                    data.certifications.length > 0 && (
+                        <View style={styles.section} key={key}>
+                            <Text style={styles.heading}>{t('certifications')}</Text>
+                            <View style={styles.hr} />
+                            {data.certifications.map((cert, index) => (
+                                <View key={cert?.id || index} style={styles.educationItem}>
+                                    <View>
+                                        <Text style={styles.headItem}>{cert?.name || ''}</Text>
+                                        <Text>
+                                            {cert?.issuer || ''}
+                                            {cert?.year && (
+                                                <>
+                                                    {' '}
+                                                    -{' '}
+                                                    {cert.month
+                                                        ? `${t(`months.${cert.month}`)} ${cert.year}`
+                                                        : cert.year || ''}
+                                                </>
+                                            )}
+                                        </Text>
+                                        <Text>
+                                            {cert?.credential &&
+                                                `${t('credential')}: ${cert.credential}`}
+                                        </Text>
+                                    </View>
+                                </View>
+                            ))}
+                        </View>
+                    )
+                )
             case 'skills': {
                 const technicalSkills = Array.isArray(data?.skills?.technical)
                     ? data.skills.technical.map(skill => skill.name)
@@ -217,19 +250,19 @@ const TemplateATS = ({ data }) => {
                             <View style={styles.hr} />
 
                             {technicalSkills.length > 0 && (
-                                <View style={{ marginBottom: 6 }}>
-                                    <Text style={styles.subHeading}>{t('technical skills')}:</Text>
+                                <Text style={{ marginBottom: 4 }}>
+                                    <Text style={styles.subHeading}>{t('technical skills')}: </Text>
                                     <Text>{technicalSkills.join(', ')}</Text>
-                                </View>
+                                </Text>
                             )}
 
                             {nonTechnicalSkills.length > 0 && (
-                                <View>
+                                <Text>
                                     <Text style={styles.subHeading}>
-                                        {t('non-technical skills')}:
+                                        {t('non-technical skills')}:{' '}
                                     </Text>
                                     <Text>{nonTechnicalSkills.join(', ')}</Text>
-                                </View>
+                                </Text>
                             )}
                         </View>
                     )
