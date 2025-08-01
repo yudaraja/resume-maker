@@ -17,26 +17,26 @@ export default function SkillList({ setCvData }) {
     const isFirstLoad = useRef(true)
     const [expandedId, setExpandedId] = useState(null)
 
-    // Load from localStorage saat mount
     useEffect(() => {
         setLocalSkills(getFromLocalStorage()?.skills || { technical: [], nonTechnical: [] })
     }, [])
 
-    // Simpan ke localStorage setiap ada perubahan (kecuali saat pertama load)
-    // Simpan ke localStorage dan sinkron ke cvData saat localSkills berubah (setelah load awal)
     useEffect(() => {
         if (isFirstLoad.current) {
             isFirstLoad.current = false
             return
         }
 
-        if (localSkills?.technical?.length > 0 || localSkills?.nonTechnical?.length > 0) {
+        const hasSkills =
+            (localSkills?.technical && localSkills.technical.length > 0) ||
+            (localSkills?.nonTechnical && localSkills.nonTechnical.length > 0)
+
+        if (hasSkills) {
             updateLocalStorage('skills', localSkills)
-            setCvData(cv => ({ ...cv, skills: localSkills })) // ✅ aman di dalam useEffect
+            setCvData(cv => ({ ...cv, skills: localSkills }))
         }
     }, [localSkills])
 
-    // Tambah skill baru (default: technical)
     const handleAdd = category => {
         const newSkill = {
             id: uuidv4(),
@@ -46,39 +46,37 @@ export default function SkillList({ setCvData }) {
 
         setLocalSkills(prev => ({
             ...prev,
-            [category]: [...(prev[category] || []), newSkill], // fallback array kosong
+            [category]: [...(prev[category] || []), newSkill],
         }))
     }
 
-    // Update skill (nama atau kategori)
     const handleChange = (id, newData) => {
         setLocalSkills(prev => {
-            // Deteksi apakah data skill ini termasuk ke kategori technical atau nonTechnical
+            const safePrev = {
+                technical: prev?.technical || [],
+                nonTechnical: prev?.nonTechnical || [],
+            }
+
             const categoryKeys = ['technical', 'nonTechnical']
             let foundCategory = null
 
             for (const key of categoryKeys) {
-                if (prev[key].some(item => item.id === id)) {
+                if (safePrev[key].some(item => item.id === id)) {
                     foundCategory = key
                     break
                 }
             }
 
-            if (!foundCategory) return prev // tidak ditemukan, tidak ada yang perlu diubah
+            if (!foundCategory) return safePrev
 
-            // Lakukan update pada kategori yang ditemukan
-            const updatedCategory = prev[foundCategory].map(item =>
+            const updatedCategory = safePrev[foundCategory].map(item =>
                 item.id === id ? { ...item, ...newData } : item
             )
 
-            const updatedSkills = {
-                ...prev,
+            return {
+                ...safePrev,
                 [foundCategory]: updatedCategory,
             }
-
-            updateLocalStorage('skills', updatedSkills)
-
-            return updatedSkills
         })
     }
 
