@@ -265,6 +265,18 @@ const Maker = () => {
                             <span className="leading-none">Download</span>
                         </PDFDownloadLink>
                     </div>
+
+                    <div className="mt-4 w-full border-t border-slate-200 pt-6 text-center text-sm text-slate-500">
+                        Built to learn and improve by{' '}
+                        <a
+                            href="https://yudaraja.github.io/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-black underline hover:text-slate-500"
+                        >
+                            Yuda Raja Ardenta
+                        </a>
+                    </div>
                 </div>
             </div>
         </>

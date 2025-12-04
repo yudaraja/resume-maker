@@ -37,6 +37,18 @@ const Home = () => {
                     </Link>
                     <HowToModal />
                 </div>
+
+                <div className="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-500">
+                    Built to learn and improve by{' '}
+                    <a
+                        href="https://yudaraja.github.io/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-black underline hover:text-slate-500"
+                    >
+                        Yuda Raja Ardenta
+                    </a>
+                </div>
             </div>
 
             <div className="relative hidden w-full items-center justify-center bg-black py-10 md:flex md:w-1/2 md:py-0">
